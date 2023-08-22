@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import setup, find_packages
   
 setup(
     name='teocomp',
@@ -6,7 +6,7 @@ setup(
     description='A simple Python package for teaching Theory of Computing',
     author='Davi Romero, Paulo T. Guerra',
     author_email='daviromero@ufc.br, paulotguerra@ufc.br',
-    packages=['teocomp'],
+    packages=find_packages(),
     install_requires=[
         'graphviz',
     ],
