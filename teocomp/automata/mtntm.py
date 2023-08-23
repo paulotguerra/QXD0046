@@ -54,7 +54,7 @@ class MTNTM:
                         for i in range(self.ntapes):
                             t[i][h[i]] = b[i]
                             h[i] += 1 if m[i] == self.right_sym else -1 if m[i] == self.left_sym else 0
-                            # if h[i] < 0: # Movimento para a esquerda da posição inicial
+                            # if h[i] < 0: # Permite movimento para a esquerda da posição inicial
                             #     h[i] = 0
                             #     t[i]= [self.blank_sym] +t[i]
                             h[i] = 0 if h[i] < 0 else h[i]
