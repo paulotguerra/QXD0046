@@ -1,5 +1,4 @@
-from ._utils import to_graphviz
-
+from ..utils.view import to_graphviz
 
 class PDA:
     def __init__(self, Q={}, Sigma={}, Gamma={}, delta={}, q0=0, F={}):
@@ -10,13 +9,15 @@ class PDA:
         self.startState = q0
         self.acceptStates = F
 
+        self.input_string = ""
         self.reset()
 
     def reset(self, input_string=""):
-        self.traces = [[(self.startState, tuple(input_string), ())]]
+        self.input_string = input_string
+        self.traces = [[(self.startState, 0, ())]]
 
     def acceptingTraces(self):
-        return [t for t in self.traces if t[-1][1] == () and t[-1][0] in self.acceptStates]
+        return [t for t in self.traces if t[-1][1] == len(self.input_string) and t[-1][0] in self.acceptStates]
 
     def result(self):
         return True if self.acceptingTraces() else (False if (not self.traces) else None)
@@ -27,18 +28,18 @@ class PDA:
         else:
             updated_traces = []
             for trace in self.traces:
-                s, string, stack = trace[-1]
-                A = {'', string[0]} if string else {''}
+                s, h, stack = trace[-1]
+                A = {'', self.input_string[h]} if h < len(self.input_string) else {''}
                 B = {'', stack[-1]} if stack else {''}
                 possible_transitions = [
                     (s, a, b) for a in A for b in B if (s, a, b) in self.transition]
                 for (s, a, b) in possible_transitions:
                     for r, c in self.transition[s, a, b]:
-                        nstring = string[1:] if a else string
+                        nh = h+1 if a else h
                         nstack = stack[:-1] if b else stack
                         nstack = nstack+(c,) if c else nstack
-                        if (not (r, nstring, nstack) in trace):
-                            updated_traces.append(trace+[(r, nstring, nstack)])
+                        if (not (r, nh, nstack) in trace):
+                            updated_traces.append(trace+[(r, nh, nstack)])
             self.traces = updated_traces
             return self.traces
 

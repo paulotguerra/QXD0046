@@ -1,4 +1,4 @@
-from ._utils import to_graphviz
+from ..utils.view import to_graphviz
 
 """ Multitape Nondeterministic Turing Machine """
 class MTNTM:
