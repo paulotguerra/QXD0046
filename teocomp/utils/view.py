@@ -160,6 +160,8 @@ def interactive(M):
     import ipywidgets as widgets
     from time import sleep
 
+    M.reset()
+
     a = widgets.Text(description='Input:',placeholder='Enter input string',value='')
     b = widgets.Button(description='Clear')
     c = widgets.Button(description='Step-by-step')
